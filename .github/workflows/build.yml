@@ -23,7 +23,7 @@ env:
 
 jobs:
   build:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-22.04
 
     steps:
     - name: Checkout v2rayNG repository
@@ -82,6 +82,7 @@ jobs:
         gomobile init
         go mod tidy -v
         gomobile bind -v -androidapi 21 -ldflags='-s -w' ./
+        mkdir -p ../V2rayNG/app/libs
         cp libv2ray.aar ../V2rayNG/app/libs/
 
     - name: Build APK
@@ -98,7 +99,7 @@ jobs:
     - name: Sign APK files
       uses: ilharp/sign-android-release@v1
       with:
-        releaseDir: V2rayNG/app/build/outputs/apk/release/
+        releaseDir: V2rayNG/app/build/outputs/apk/playstore/release/
         keyAlias: ${{ env.ALIAS }}
         keyPassword: ${{ env.KEYPASSWORD }}
         keyStorePassword: ${{ env.KEYSTOREPASSWORD }}
