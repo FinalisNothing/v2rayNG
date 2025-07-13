@@ -10,10 +10,11 @@ on:
         description: "Select Xray-core's version: main (latest commit) or latest (release version)."
         required: true
         type: choice
-        default: 'main'
+        default: '25.3.31'
         options: 
         - main
         - latest
+        - '25.3.31'
 
 env:
   ALIAS: ${{ secrets.ALIAS }}
@@ -79,7 +80,7 @@ jobs:
       run: |
         cd AndroidLibXrayLite
         sed -i "s/v2core.Version())/v2core.Version() + \"${{ env.XRAY_SHA }}\")/" libv2ray_main.go
-        go get github.com/xtls/xray-core@25.3.31
+        go get github.com/xtls/xray-core@${{ inputs.XRAY_VERSION }}
         gomobile init
         go mod tidy -v
         gomobile bind -v -androidapi 21 -ldflags='-s -w' ./
